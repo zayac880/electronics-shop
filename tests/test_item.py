@@ -14,4 +14,12 @@ def test_apply_discount():
     assert item.calculate_total_price() == 18
 
 
+def test_set_name():
+    item = Item("test item", 10, 2)
+    item.name = "new name"
+    assert item.name == "new name"
 
+
+def test_string_to_number():
+    assert Item.string_to_number('10') == 10
+    assert Item.string_to_number('20.5') == 20
