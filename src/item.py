@@ -30,51 +30,56 @@ class Item:
 
 
 
+    @property
+    def name(self):
+      return self._name
 
-#    @property
-#   def name(self):
-#      return self._name
+    @name.setter
+    def name(self, value: str):
+        try:
+            assert len(value) <= 10
+            self._name = value
+        except AssertionError:
+            pass
 
-#   @name.setter
-#   def name(self, value: str):
-#        try:
-#            assert len(value) <= 10
-#            self._name = value
-#        except AssertionError:
-#            pass
+    def calculate_total_price(self):
+        """
+        Рассчитывает общую стоимость конкретного товара в магазине.
 
-#    def calculate_total_price(self):
-#        """
-#       Рассчитывает общую стоимость конкретного товара в магазине.
-#
-#        :return: Общая стоимость товара.
-#        """
-#        return self.price * self.quantity
+        :return: Общая стоимость товара.
+        """
+        return self.price * self.quantity
 
-#    def apply_discount(self):
-#        """
-#        Применяет установленную скидку для конкретного товара.
-#        """
-#        self.price *= self.pay_rate
+    def apply_discount(self):
+        """
+        Применяет установленную скидку для конкретного товара.
+        """
+        self.price *= self.pay_rate
 
-#    @classmethod
-#    def instantiate_from_csv(cls):
-#        with open('C:/Users/Alex/Desktop/OOP/electronics-shop/src/items.csv') as f:
-#            reader = csv.DictReader(f)
-#            items = []
-#            for row in reader:
-#                name = row['name']
-#                price = cls.string_to_number(row['price'])
-#                quantity = int(row['quantity'])
-#                item = cls(name, price, quantity)
-#                items.append(item)
-#            cls.all.clear()
-#            cls.all.extend(list(items))
+    @classmethod
+    def instantiate_from_csv(cls):
+        with open('C:/Users/Alex/Desktop/OOP/electronics-shop/src/items.csv') as f:
+            reader = csv.DictReader(f)
+            items = []
+            for row in reader:
+                name = row['name']
+                price = cls.string_to_number(row['price'])
+                quantity = int(row['quantity'])
+                item = cls(name, price, quantity)
+                items.append(item)
+            cls.all.clear()
+            cls.all.extend(list(items))
 
-#    @staticmethod
-#    def string_to_number(value: str):
-#        try:
-#            return int(value)
-#        except ValueError:
-#            return int(float(value))
+    @staticmethod
+    def string_to_number(value: str):
+        try:
+            return int(value)
+        except ValueError:
+            return int(float(value))
 
+    def __add__(self, other):
+        #if isinstance(other, self.__class__):
+        #    return self.quantity + other.quantity
+        if issubclass(other.__class__, self.__class__):
+            return self.quantity + other.quantity
+        return None
