@@ -9,6 +9,16 @@ class LanguageMixin:
             self.language = 'EN'
         return self
 
+    @property
+    def language(self):
+        return self._language
+
+    @language.setter
+    def language(self, value):
+        if value not in ["RU", "EN"]:
+            raise AttributeError("property 'language' of 'Keyboard' object has no setter")
+        self._language = value
+
 
 class Keyboard(LanguageMixin):
     all = []
