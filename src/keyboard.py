@@ -1,12 +1,15 @@
+from src.item import Item
+
+
 class LanguageMixin:
     def __init__(self):
-        self.language = 'EN'
+        self._language = 'EN'
 
     def change_lang(self):
-        if self.language == 'EN':
-            self.language = 'RU'
+        if self._language == 'EN':
+            self._language = 'RU'
         else:
-            self.language = 'EN'
+            self._language = 'EN'
         return self
 
     @property
@@ -16,19 +19,14 @@ class LanguageMixin:
     @language.setter
     def language(self, value):
         if value not in ["RU", "EN"]:
-            raise AttributeError("property 'language' of 'Keyboard' object has no setter")
+            raise ValueError("property 'language' of 'KeyBoard' object has no setter")
         self._language = value
 
 
-class Keyboard(LanguageMixin):
-    all = []
-
+class Keyboard(Item, LanguageMixin):
     def __init__(self, name, price, quantity):
-        super().__init__()
-        self.name = name
-        self.price = price
-        self.quantity = quantity
-        self.all.append(self)
+        super().__init__(name, price, quantity)
+        self._name = name
+        self._language = 'EN'
 
-    def __str__(self):
-        return f'{self.name}'
+
