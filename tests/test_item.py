@@ -1,4 +1,5 @@
-from src.item import Item
+import pytest
+from src.item import Item, InstantiateCSVError
 
 
 def test_calculate_total_price():
@@ -29,12 +30,25 @@ def test_item_repr():
     item = Item("test item", 10.99, 5)
     assert repr(item) == "Item('test item', 10.99, 5)"
 
+
 def test_item_str():
     item = Item("test item", 10.99, 5)
     assert str(item) == "test item"
+
 
 def test_item_add():
     item1 = Item("Смартфон", 10000, 20)
     other = 100
     assert item1 + other == None
 
+
+def test_instantiate_from_csv_file_not_found():
+    with pytest.raises(FileNotFoundError) as exc_info:
+        Item.instantiate_from_csv()
+    assert str(exc_info.value) == "Отсутствует файл items.csv"
+
+
+def test_instantiate_from_csv_file_corrupted():
+    with pytest.raises(InstantiateCSVError) as exc_info:
+        Item.instantiate_from_csv()
+    assert str(exc_info.value) == "Файл items.csv поврежден"
